@@ -3,16 +3,6 @@ import socket
 import os
 import sys
 
-class Command(threading.Thread):
-    def __init__(self):
-        super().__init__()
-        
-    def run(self):
-      while True:
-        ipt = input()
-        if ipt == '/quit':
-          self.server.remove_connection(self)
-          sys.exit()
 
 class ServerSocket(threading.Thread):
     def __init__(self, sc, sockname, server):
@@ -78,7 +68,19 @@ class Server(threading.Thread):
 
     def remove_connection(self,conn):
         self.connections.remove(conn)
-
+       
+class Command(threading.Thread):
+    def __init__(self):
+        super().__init__()
+    def run(self):
+    while True:
+        ipt = input()
+        if ipt == '/quit':
+        print()
+        for x in server.connections:
+            x.sc.close()
+        os._exit(0)
+        
 
 HOST = '127.0.0.1'
 PORT = 8000
